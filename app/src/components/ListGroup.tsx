@@ -1,14 +1,18 @@
 // {items: [], heading: string}
 interface Props {
     items: string[];
-    heading: string;
+    heading?: string;
     // (item: string) => void
     onSelectItem: (item: string) => void;
 }
 
 import { useState } from "react";
 
-function ListGroup({ items, heading, onSelectItem }: Props) {
+function ListGroup({
+    items,
+    heading = "Uno Trivia! Players",
+    onSelectItem,
+}: Props) {
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
     return (

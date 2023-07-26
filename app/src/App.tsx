@@ -3,6 +3,12 @@ import Button from "./components/Button";
 import ListGroup from "./components/ListGroup";
 
 function App() {
+    const handleSelectItem = (item: string) => {
+        console.log(item);
+    };
+
+    let items = ["Player1", "Player2"];
+
     return (
         <div>
             <Alert>
@@ -11,6 +17,10 @@ function App() {
             <Button color="danger" onClick={() => console.log("Clicked")}>
                 MyButton
             </Button>
+            <ListGroup
+                onSelectItem={handleSelectItem}
+                items={items}
+            ></ListGroup>
         </div>
     );
 }
