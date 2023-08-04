@@ -1,17 +1,11 @@
-import React from "react";
+import React from 'react';
 
-interface Props {
-    children: string;
-    color?: "primary" | "secondary" | "danger";
-    onClick: () => void;
+interface ButtonProps {
+  onClick: () => void;
 }
 
-const Button = ({ children, color = "primary", onClick }: Props) => {
-    return (
-        <button className={"btn btn-" + color} onClick={onClick}>
-            {children}
-        </button>
-    );
+const Button: React.FC<ButtonProps> = ({ onClick }) => {
+  return <button onClick={onClick}>Generate Images</button>;
 };
 
 export default Button;

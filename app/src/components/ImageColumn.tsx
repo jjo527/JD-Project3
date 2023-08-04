@@ -1,18 +1,31 @@
 import React, { useState } from "react";
-import BlUE6 from "../assets/images/Blue_6.png"; //
+import exampleImage from "../assets/images/Blue_4.png";
 
-interface ImageColumnProps {
-  images: string[];
-}
+const ImageColumnLayout: React.FC = () => {
+  const [images, setImages] = useState<string[]>([]);
 
-const ImageColumn: React.FC<ImageColumnProps> = ({ images }) => {
-    return (
-      <div className="column">
-        {images.map((url, index) => (
-          <img key={index} src={BlUE6} alt={`Image ${index + 1}`} />
-        ))}
-      </div>
-    );
+  const handleAddImage = () => {
+    setImages([...images, exampleImage]);
   };
 
-export default ImageColumn;
+  return (
+    <div>
+      <div>
+        <button onClick={handleAddImage}>Add Example Image</button>
+      </div>
+      <div style={{ display: "flex" }}>
+        {images.map((imageUrl, index) => (
+          <div key={index} style={{ flex: 1, margin: "5px" }}>
+            <img
+              src={imageUrl}
+              alt={`Image ${index}`}
+              style={{ width: "100%", height: "250px" }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ImageColumnLayout;

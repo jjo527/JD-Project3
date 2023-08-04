@@ -1,24 +1,21 @@
-// src/App.tsx
-
-// const App: React.FC = () => {
-//   return (
-//     <div>
-//       <h1>UNO Game</h1>
-//       <Dealer />
-//     </div>
-//   );
-// };
-
-import React, { useState } from "react";
-import Dealer from "./components/Dealer";
+import React, { useState } from 'react';
+import Button from './components/Button';
+import ImageColumn from './components/ImageColumn';
 
 const App: React.FC = () => {
+  const [images, setImages] = useState<string[]>([]);
 
+  const handleButtonClick = () => {
+    // Simulating image generation (replace this with your actual image URLs)
+    const newImages: string[] = [
+      'https://via.placeholder.com/150',
+    ];
+    setImages(newImages);
+  };
 
   return (
     <div>
-      <h1>UNO Game</h1>
-      <Dealer />
+      <ImageColumn></ImageColumn>
     </div>
   );
 };
