@@ -1,11 +1,17 @@
 // src/types.ts
 
+export enum Player {
+  ONE = 'Player 1',
+  TWO = 'Player 2'
+}
+
 export enum CardColor {
     Red = 'red',
     Green = 'green',
     Blue = 'blue',
     Yellow = 'yellow',
     BLACK = 'black',
+    BLANK = ''
   }
 
   export enum CardValue {
@@ -23,7 +29,8 @@ export enum CardColor {
     REVERSE = 'reverse',
     DRAW2 = 'draw2',
     WILD = 'wild',
-    WILDDRAW = 'wilddraw'
+    WILDDRAW = 'wilddraw',
+    BLANK = ''
     // Add other values as needed
   }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from './components/Button';
-import ImageColumn from './components/ImageColumn';
+import UnoGame from './components/UnoGame';
 
 const App: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -15,7 +15,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <ImageColumn></ImageColumn>
+      <UnoGame></UnoGame>
     </div>
   );
 };

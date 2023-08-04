@@ -1,9 +1,14 @@
 // src/utils.ts
 
-import { Card, CardColor, CardValue } from './card_types';
+import { Card, CardColor, CardValue } from "./card_types";
 
 const generateUNOCards = (): Card[] => {
-  const colors: CardColor[] = [CardColor.Red, CardColor.Green, CardColor.Blue, CardColor.Yellow];
+  const colors: CardColor[] = [
+    CardColor.Red,
+    CardColor.Green,
+    CardColor.Blue,
+    CardColor.Yellow,
+  ];
   const values: CardValue[] = [
     CardValue.Zero,
     CardValue.One,
@@ -14,20 +19,20 @@ const generateUNOCards = (): Card[] => {
     CardValue.SIX,
     CardValue.SEVEN,
     CardValue.EIGHT,
-    CardValue.NINE
+    CardValue.NINE,
   ];
 
   let cards: Card[] = [];
   let id = 1;
 
-  for (const color of colors) {
-    for (const value of values) {
-      cards.push({ id, color, value });
-      id++;
+  for (var i = 0; i < 4; i++) {
+    for (const color of colors) {
+      for (const value of values) {
+        cards.push({ id, color, value });
+        id++;
+      }
     }
   }
-
-  console.log(cards)
 
   // Add action cards and wild cards
   // cards.push(...actionCards);
