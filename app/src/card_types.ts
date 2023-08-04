@@ -5,12 +5,25 @@ export enum CardColor {
     Green = 'green',
     Blue = 'blue',
     Yellow = 'yellow',
+    BLACK = 'black',
   }
 
   export enum CardValue {
     Zero = '0',
     One = '1',
     Two = '2',
+    THREE = '3',
+    FOUR = '4',
+    FIVE = '5',
+    SIX = '6',
+    SEVEN = '7',
+    EIGHT = '8',
+    NINE ='9',
+    SKIP = 'skip',
+    REVERSE = 'reverse',
+    DRAW2 = 'draw2',
+    WILD = 'wild',
+    WILDDRAW = 'wilddraw'
     // Add other values as needed
   }
 

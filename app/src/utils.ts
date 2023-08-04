@@ -8,7 +8,13 @@ const generateUNOCards = (): Card[] => {
     CardValue.Zero,
     CardValue.One,
     CardValue.Two,
-    // Add other values as needed
+    CardValue.THREE,
+    CardValue.FOUR,
+    CardValue.FIVE,
+    CardValue.SIX,
+    CardValue.SEVEN,
+    CardValue.EIGHT,
+    CardValue.NINE
   ];
 
   let cards: Card[] = [];
@@ -20,6 +26,8 @@ const generateUNOCards = (): Card[] => {
       id++;
     }
   }
+
+  console.log(cards)
 
   // Add action cards and wild cards
   // cards.push(...actionCards);

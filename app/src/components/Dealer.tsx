@@ -6,7 +6,7 @@ import { Card, Deck } from '../card_types';
 import generateUNOCards from '../utils';
 
 const Dealer: React.FC = () => {
-  const [deck, setDeck] = useState<Deck>(shuffle(generateUNOCards()));
+  const [deck, setDeck] = useState<Deck>(generateUNOCards());
 
   const handleDeal = () => {
     if (deck.length === 0) {
