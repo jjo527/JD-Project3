@@ -1,28 +1,15 @@
-import Alert from "./components/Alert";
-import Button from "./components/Button";
-import ListGroup from "./components/ListGroup";
+// src/App.tsx
 
-function App() {
-    const handleSelectItem = (item: string) => {
-        console.log(item);
-    };
+import React from 'react';
+import Dealer from './components/Dealer';
 
-    let items = ["Player1", "Player2"];
-
-    return (
-        <div>
-            <Alert>
-                Hello <span>World</span>
-            </Alert>
-            <Button color="danger" onClick={() => console.log("Clicked")}>
-                MyButton
-            </Button>
-            <ListGroup
-                onSelectItem={handleSelectItem}
-                items={items}
-            ></ListGroup>
-        </div>
-    );
-}
+const App: React.FC = () => {
+  return (
+    <div>
+      <h1>UNO Game</h1>
+      <Dealer />
+    </div>
+  );
+};
 
 export default App;
