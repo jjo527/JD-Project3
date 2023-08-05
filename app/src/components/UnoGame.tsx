@@ -11,7 +11,6 @@ import {
 import generateUNOCards from "../utils";
 import shuffle from "shuffle-array";
 import Player1Cards from "./Player1Cards";
-import NonStringList from "./Test";
 
 const UnoGame: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -42,7 +41,7 @@ const UnoGame: React.FC = () => {
   const [listData, setListData] = useState([1, 2, 3, 4, 5, 6]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const handleClick = (index) => {
+  const handleClick = (index: number) => {
     setSelectedIndex(index);
     console.log("Clicked index:", index);
   };
@@ -73,7 +72,8 @@ const UnoGame: React.FC = () => {
 
   const handleDrawCard = () => {
     var deck: Deck = drawCardPile;
-    var newCard: Card = deck.shift();
+    var newCard: Card = deck[0];
+    deck.shift();
     console.log("draw card, ", newCard);
     setDrawCardPile(deck);
 
