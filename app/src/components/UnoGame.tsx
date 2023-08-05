@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import exampleImage from "../assets/images/Blue_4.png";
-import { Card, Deck, CardValue, CardColor, Player } from "../card_types";
+import {
+  Card,
+  Deck,
+  CardValue,
+  CardColor,
+  Player,
+  Status,
+} from "../card_types";
 import generateUNOCards from "../utils";
 import shuffle from "shuffle-array";
 import Player1Cards from "./Player1Cards";
@@ -16,14 +23,11 @@ const UnoGame: React.FC = () => {
   var deck = generateUNOCards();
   deck = shuffle(deck);
 
-
   const firstCard: Card = {
     id: 1,
     color: CardColor.BLANK,
-    value: CardValue.BLANK
-   };
-
-
+    value: CardValue.BLANK,
+  };
 
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState("");
@@ -33,9 +37,10 @@ const UnoGame: React.FC = () => {
   const [playCardsPile, setPlayCardsPile] = useState([]);
   const [drawCardPile, setDrawCardPile] = useState<Deck>(deck);
   const [currentCard, setcurrentCard] = useState<Card>(firstCard);
+  const [canEndTurn, setCanEndTurn] = useState<Status>(Status.NO);
 
   const [listData, setListData] = useState([1, 2, 3, 4, 5, 6]);
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleClick = (index) => {
     setSelectedIndex(index);
@@ -61,6 +66,7 @@ const UnoGame: React.FC = () => {
     setPlayer2Cards(player2);
     setDrawCardPile(deck);
     setcurrentCard(firstCard);
+    setCanEndTurn(Status.NO)
   };
 
   const handleDrawCard = () => {
@@ -69,16 +75,54 @@ const UnoGame: React.FC = () => {
     console.log("draw card, ", newCard);
     setDrawCardPile(deck);
 
-
-    if(turn == Player.ONE) {
-      console.log("Drawing card for Player 1!")
+    if (turn == Player.ONE) {
+      console.log("Drawing card for Player 1!");
       setPlayer1Cards([...player1Cards, newCard]);
-    }
-    else {
-      console.log("Drawing card for Player 2!")
+    } else {
+      console.log("Drawing card for Player 2!");
       setPlayer2Cards([...player2Cards, newCard]);
     }
 
+    setCanEndTurn(Status.YES)
+  };
+
+  const handlePlayCard = () => {
+    var card;
+    if (turn == Player.ONE) {
+      card = player1Cards[selectedIndex];
+      console.log("card: ", card);
+      console.log("current card: ", card);
+
+      if (card.color == currentCard.color || card.value == currentCard.value) {
+        var player1Deck = player1Cards;
+        console.log("num cards: ", player1Cards.length);
+        player1Deck.splice(selectedIndex, 1);
+        console.log("num cards: ", player1Cards.length);
+        setPlayer1Cards(player1Deck);
+        setTurn(Player.TWO);
+        setSelectedIndex(0);
+        setCanEndTurn(Status.NO)
+        setcurrentCard(card)
+
+      }
+    }
+    else if (turn == Player.TWO) {
+      card = player2Cards[selectedIndex];
+      console.log("card: ", card);
+      console.log("current card: ", card);
+
+      if (card.color == currentCard.color || card.value == currentCard.value) {
+        var player2Deck = player2Cards;
+        console.log("num cards: ", player2Cards.length);
+        player2Deck.splice(selectedIndex, 1);
+        console.log("num cards: ", player2Cards.length);
+        setPlayer1Cards(player2Deck);
+        setTurn(Player.ONE);
+        setSelectedIndex(0);
+        setCanEndTurn(Status.NO)
+        setcurrentCard(card)
+      }
+    }
   };
 
   const handleSeeValues = () => {
@@ -91,11 +135,18 @@ const UnoGame: React.FC = () => {
   const handleEndOfTurn = () => {
     // switching turn when theres two players
     // todo: add more players later
-    if (turn == Player.TWO || turn == "") {
-      setTurn(Player.ONE);
-    } else {
-      setTurn(Player.TWO);
+    if (canEndTurn == Status.YES) {
+      if (turn == Player.TWO || turn == "") {
+        setTurn(Player.ONE);
+      } else {
+        setTurn(Player.TWO);
+      }
+      setCanEndTurn(Status.NO)
     }
+    else {
+      console.log("Make sure to draw/play a card!")
+    }
+
   };
 
   const handleSelectItem = (item: string) => {
@@ -104,63 +155,87 @@ const UnoGame: React.FC = () => {
 
   return (
     <div>
+      {/* Title */}
+      <div>
+        <h1>UNO Trivia!</h1>
+      </div>
+
       {/* Game Buttons */}
       <div>
         <button onClick={handleStartGame}>Start Game</button>
         <button onClick={handleDrawCard}>Draw Card</button>
-        <button onClick={handleSeeValues}>Debug </button>
+        <button onClick={handlePlayCard}>Play Card</button>
         <button onClick={handleEndOfTurn}>End Turn</button>
+        <button onClick={handleSeeValues}>Debug </button>
       </div>
 
       {/* Current Status */}
       <div>
-        <h1> Current Turn: {turn} | Current Card: {currentCard.color} {currentCard.value}</h1>
+        <h1>
+          {" "}
+          Current Turn: {turn} | Current Card: {currentCard.color}{" "}
+          {currentCard.value} | Drew Card: {canEndTurn}
+        </h1>
       </div>
 
-      {/*Player 1's Cards sections  */}
-      <div>
-        <h1>Player 1's Cards</h1>
-        {player1Cards.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => handleClick(index)}
-            style={{
-              padding: "10px",
-              border:
-                index === selectedIndex ? "2px solid blue" : "1px solid black",
-              backgroundColor:
-                index === selectedIndex ? "lightblue" : "transparent",
-              cursor: "pointer",
-            }}
-          >
-            <div>
-              {item.color} {item.value}
-            </div>
+      {/* Player Cards */}
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1, backgroundColor: "white", padding: "20px" }}>
+          {/*Player 1's Cards sections  */}
+          <div>
+            <h1>Player 1's Cards</h1>
+            {player1Cards.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleClick(index)}
+                style={{
+                  padding: "10px",
+                  border:
+                    index === selectedIndex && turn == Player.ONE
+                      ? "2px solid blue"
+                      : "1px solid black",
+                  backgroundColor:
+                    index === selectedIndex && turn == Player.ONE
+                      ? "lightblue"
+                      : "transparent",
+                  cursor: "pointer",
+                }}
+              >
+                <div>
+                  {item.color} {item.value}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      {/*Player 2's Cards sections  */}
-      <div>
-        <h1>Player 2's Cards</h1>
-        {player2Cards.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => handleClick(index)}
-            style={{
-              padding: "10px",
-              border:
-                index === selectedIndex ? "2px solid blue" : "1px solid black",
-              backgroundColor:
-                index === selectedIndex ? "lightblue" : "transparent",
-              cursor: "pointer",
-            }}
-          >
-            <div>
-              {item.color} {item.value}
-            </div>
+        </div>
+        <div style={{ flex: 1, backgroundColor: "white", padding: "20px" }}>
+          {/*Player 2's Cards sections  */}
+          <div>
+            <h1>Player 2's Cards</h1>
+            {player2Cards.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleClick(index)}
+                style={{
+                  padding: "10px",
+                  border:
+                    index === selectedIndex && turn == Player.TWO
+                      ? "2px solid blue"
+                      : "1px solid black",
+                  backgroundColor:
+                    index === selectedIndex && turn == Player.TWO
+                      ? "lightblue"
+                      : "transparent",
+                  cursor: "pointer",
+                }}
+              >
+                <div>
+                  {item.color} {item.value}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
 
       <div style={{ display: "flex" }}>
