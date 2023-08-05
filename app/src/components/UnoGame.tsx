@@ -48,10 +48,12 @@ const UnoGame: React.FC = () => {
   };
 
   const handleStartGame = () => {
+
+    const numCardsDelt = 2;
     var deck: Deck = drawCardPile;
-    var player1 = deck.slice(0, 7);
-    var player2 = deck.slice(7, 14);
-    var firstCard = deck[14];
+    var player1 = deck.slice(0, numCardsDelt);
+    var player2 = deck.slice(numCardsDelt, numCardsDelt*2);
+    var firstCard = deck[numCardsDelt*2];
 
     console.log("Deck, len: ", deck.length, " value: ", deck);
     console.log("P1, len: ", player1.length, " value: ", player1);
@@ -74,6 +76,9 @@ const UnoGame: React.FC = () => {
     var newCard: Card = deck.shift();
     console.log("draw card, ", newCard);
     setDrawCardPile(deck);
+
+    var input = prompt("What Engineering Department is on the 12th Floor of Benedum?")
+    console.log("input = ",input)
 
     if (turn == Player.ONE) {
       console.log("Drawing card for Player 1!");
@@ -174,7 +179,7 @@ const UnoGame: React.FC = () => {
         <h1>
           {" "}
           Current Turn: {turn} | Current Card: {currentCard.color}{" "}
-          {currentCard.value} | Drew Card: {canEndTurn}
+          {currentCard.value} | Drew Card: {canEndTurn} | Winner: {winner}
         </h1>
       </div>
 
